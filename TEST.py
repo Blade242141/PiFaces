@@ -1,5 +1,5 @@
-# Copyright (c) 2014 Adafruit Industries
-# Author: Tony DiCola
+# Copyright (c) 2017 Adafruit Industries
+# Author: Tony DiCola & James DeVito
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,17 +24,48 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_SSD1306
 
 from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 
+import subprocess
 
 # Raspberry Pi pin configuration:
-RST = 24
+RST = None     # on the PiOLED this pin isnt used
 # Note the following are only used with SPI:
 DC = 23
 SPI_PORT = 0
 SPI_DEVICE = 0
 
+# Beaglebone Black pin configuration:
+# RST = 'P9_12'
+# Note the following are only used with SPI:
+# DC = 'P9_15'
+# SPI_PORT = 1
+# SPI_DEVICE = 0
+
 # 128x32 display with hardware I2C:
 disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST)
+
+# 128x64 display with hardware I2C:
+# disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST)
+
+# Note you can change the I2C address by passing an i2c_address parameter like:
+# disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, i2c_address=0x3C)
+
+# Alternatively you can specify an explicit I2C bus number, for example
+# with the 128x32 display you would use:
+# disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST, i2c_bus=2)
+
+# 128x32 display with hardware SPI:
+# disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
+
+# 128x64 display with hardware SPI:
+# disp = Adafruit_SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
+
+# Alternatively you can specify a software SPI implementation by providing
+# digital GPIO pin numbers for all the required display pins.  For example
+# on a Raspberry Pi with the 128x32 display you might use:
+# disp = Adafruit_SSD1306.SSD1306_128_32(rst=RST, dc=DC, sclk=18, din=25, cs=22)
 
 # Initialize library.
 disp.begin()
@@ -43,19 +74,24 @@ disp.begin()
 disp.clear()
 disp.display()
 
-# Load image based on OLED display height.  Note that image is converted to 1 bit color.
+# Create blank image for drawing.
+# Make sure to create image with mode '1' for 1-bit color.
 smile = Image.open('Smile.ppm').convert('1')
-eye = Image.open('eye.ppm').convert('1')
-# Alternatively load a different format image, resize it, and convert to 1 bit color.
-#image = Image.open('happycat.png').resize((disp.width, disp.height), Image.ANTIALIAS).convert('1')
+eye = Image.open('eyes.ppm').convert('1')
 
-n = 1
+# Draw a black filled box to clear the image.
+draw.rectangle((0,0,width,height), outline=0, fill=0)
 
-while n == 1:
+# Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
+# Some other nice fonts to try: http://www.dafont.com/bitmap.php
+# font = ImageFont.truetype('Minecraftia.ttf', 8)
+
+while True:
+    # Display image.
+    disp.image(smile)
+    disp.display()
+    time.sleep(2)
 	# Display image.
-	disp.image(smile)
-	disp.display()
-	time.sleep(2)
-	disp.clear()
-	disp.image(eye)
-	disp.display()
+    disp.image(eye)
+    disp.display()
+    time.sleep(2)
