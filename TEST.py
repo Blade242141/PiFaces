@@ -80,7 +80,6 @@ smile = Image.open('Smile.ppm').convert('1')
 eye = Image.open('eyes.ppm').convert('1')
 
 # Draw a black filled box to clear the image.
-draw.rectangle((0,0,width,height), outline=0, fill=0)
 
 # Alternatively load a TTF font.  Make sure the .ttf font file is in the same directory as the python script!
 # Some other nice fonts to try: http://www.dafont.com/bitmap.php
