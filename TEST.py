@@ -89,8 +89,8 @@ while True:
     # Display image.
     disp.image(smile)
     disp.display()
-    time.sleep(2)
+    time.sleep(0.2)
 	# Display image.
     disp.image(eye)
     disp.display()
-    time.sleep(2)
+    time.sleep(0.2)
