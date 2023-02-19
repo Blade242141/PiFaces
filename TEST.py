@@ -76,8 +76,8 @@ disp.display()
 
 # Create blank image for drawing.
 # Make sure to create image with mode '1' for 1-bit color.
-smile = Image.open('Smile.ppm').convert('1')
-eye = Image.open('eyes.ppm').convert('1')
+smile = Image.open('parris1.ppm').convert('1')
+eye = Image.open('parris2.ppm').convert('1')
 
 # Draw a black filled box to clear the image.
 
